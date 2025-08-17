@@ -8,20 +8,22 @@ public class Boids : MonoBehaviour
     [SerializeField] private BoidUnit boidUnitPrefab;
     [SerializeField] private float spawnRange = 10;
     
+    
     public int boidCount;
+    public int Indexcol;
 
     BoidUnit boldunit;
 
-
+    public bool iscolor = true;
     [Range(0, 10)] public float cohesionWeight=1;
     [Range (0, 10)]public float alignmentWeight=1;
     [Range(0, 10)] public float seperationVecWeight=1;
-   
 
 
     void Start()
     {
-        for(int i = 0; i < boidCount; i++)
+
+        for (int i = 0; i < boidCount; i++)
         {
             Vector3 randomvec = Random.insideUnitSphere;
             randomvec *= spawnRange;

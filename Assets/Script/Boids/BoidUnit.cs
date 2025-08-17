@@ -9,25 +9,67 @@ public class BoidUnit : MonoBehaviour
     [SerializeField] float speed;
     [SerializeField] float neighbourDistance;
     [SerializeField] private Transform TargetObj;
+
     private Color boidcolor;
     bool isreach = false;
 
     Vector3 targetVec;
     Vector3 obstacleVec;
-
     
     Boids boids;
 
     List<BoidUnit> neighbours = new List<BoidUnit>();
+    List<Color> colors = new List<Color>();
 
     [Header("Layer")]
     [SerializeField] LayerMask neigboursLayers;
     [SerializeField] LayerMask boidUnitLayer;
 
+    Dictionary<int, string> colorTags = new Dictionary<int, string>()
+{
+    {0, "Red"},
+    {1, "Green"},
+    {2, "Blue"}
+};
+
+    private void Awake()
+    {
+        colors.Add(Color.red);
+        colors.Add(Color.green);
+        colors.Add(Color.blue);
+  
+    }
+
     public void InitializeUnit(Boids _boids, float _speed)
     {
         boids = _boids;
         speed = _speed;
+
+        Renderer BoidUnitrenderer = GetComponent<Renderer>();
+
+        if (boids.iscolor)
+        {
+            int randomIndex = UnityEngine.Random.Range(0, 3);
+            BoidUnitrenderer.material.color = colors[randomIndex];
+            string selectedName = colorTags[randomIndex]; 
+           // Debug.Log("ColorTags : " + selectedName);
+         
+            switch (randomIndex)
+            {
+                case 0:
+                    gameObject.tag = "red";
+                    break;
+                case 1:
+                    gameObject.tag = "green";
+                    break;
+                case 2:
+                    gameObject.tag = "blue";
+                    break;
+            }
+
+           // Debug.Log($"Color: {colors[randomIndex]}, Tag: {gameObject.tag}");
+        }
+
     }
   
     void Update()
@@ -43,7 +85,7 @@ public class BoidUnit : MonoBehaviour
         targetVec = cohesionVec + alignmenVec + seperationVec;
 
         targetVec = Vector3.Lerp(this.transform.forward,targetVec, speed * Time.deltaTime);
-        this.transform.rotation = Quaternion.LookRotation(targetVec);
+        this.transform.rotation = Quaternion.LookRotation(TargetObj.position);
         this.transform.position += targetVec * speed * Time.deltaTime;
 
         DestroyBoidunit();
@@ -54,32 +96,33 @@ public class BoidUnit : MonoBehaviour
         neighbours.Clear();
 
         Collider[] colls = Physics.OverlapSphere(transform.position, neighbourDistance, boidUnitLayer);
-        //Debug.Log($"[{name}] 발견된 콜라이더 수: {colls.Length}");
 
         for (int i = 0; i < colls.Length; i++)
-        { 
+        {
+            if (colls[i].GetComponent<BoidUnit>() != null && colls[i].CompareTag(this.tag))
+            {
                 neighbours.Add(colls[i].GetComponent<BoidUnit>());
+            }
         }
+    
     }
 
     //응집 벡터(이웃들 기준 중간점으로 가는 벡터) 계산 
     private Vector3 CohesionVector()
     {
-     
         Vector3 cohesionVec = Vector3.zero;
 
         if (neighbours.Count > 0)
         {
             for (int i = 0; i < neighbours.Count; i++)
             {
-                cohesionVec += neighbours[i].transform.position;
+                    cohesionVec += neighbours[i].transform.position; 
             }
         }
         else
         {
             return cohesionVec;
         }
-
 
         //중심 위치 벡터 
         cohesionVec /= neighbours.Count;

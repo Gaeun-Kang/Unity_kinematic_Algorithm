@@ -153,11 +153,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boidUnitPrefab: {fileID: 1297588894}
-  spawnRange: 30
-  boidCount: 1000
-  cohesionWeight: 1
-  alignmentWeight: 1
-  seperationVecWeight: 1
+  spawnRange: 15
+  boidCount: 500
+  Indexcol: 0
+  iscolor: 1
+  cohesionWeight: 0.5
+  alignmentWeight: 0
+  seperationVecWeight: 0.3
 --- !u!4 &200907429
 Transform:
   m_ObjectHideFlags: 0
@@ -169,7 +171,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.39101157, y: 3.5602107, z: 7.119516}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -273,7 +275,7 @@ Transform:
   m_GameObject: {fileID: 1135653083}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 170, y: 8, z: -195.7}
+  m_LocalPosition: {x: 170.4, y: -48.2, z: -35.2}
   m_LocalScale: {x: 40, y: 1, z: 40}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -289,7 +291,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2438853972103334932, guid: 68b970b0c0394394fb4c7d996e730cfc, type: 3}
       propertyPath: m_CastShadows
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2438853972103334932, guid: 68b970b0c0394394fb4c7d996e730cfc, type: 3}
       propertyPath: m_ReceiveShadows
@@ -305,7 +307,7 @@ PrefabInstance:
       objectReference: {fileID: 1700685113}
     - target: {fileID: 5675429051532696674, guid: 68b970b0c0394394fb4c7d996e730cfc, type: 3}
       propertyPath: neighbourDistance
-      value: 12
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5675429051532696674, guid: 68b970b0c0394394fb4c7d996e730cfc, type: 3}
       propertyPath: seperationVecWeight
@@ -328,6 +330,18 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7809176322449667053, guid: 68b970b0c0394394fb4c7d996e730cfc, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7809176322449667053, guid: 68b970b0c0394394fb4c7d996e730cfc, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7809176322449667053, guid: 68b970b0c0394394fb4c7d996e730cfc, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7809176322449667053, guid: 68b970b0c0394394fb4c7d996e730cfc, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.08599162
       objectReference: {fileID: 0}
@@ -341,7 +355,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7809176322449667053, guid: 68b970b0c0394394fb4c7d996e730cfc, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9238795
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7809176322449667053, guid: 68b970b0c0394394fb4c7d996e730cfc, type: 3}
       propertyPath: m_LocalRotation.x
@@ -349,11 +363,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7809176322449667053, guid: 68b970b0c0394394fb4c7d996e730cfc, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.38268346
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7809176322449667053, guid: 68b970b0c0394394fb4c7d996e730cfc, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7809176322449667053, guid: 68b970b0c0394394fb4c7d996e730cfc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -366,6 +380,10 @@ PrefabInstance:
     - target: {fileID: 7809176322449667053, guid: 68b970b0c0394394fb4c7d996e730cfc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7809176322449667053, guid: 68b970b0c0394394fb4c7d996e730cfc, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
