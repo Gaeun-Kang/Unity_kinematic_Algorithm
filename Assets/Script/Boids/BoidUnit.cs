@@ -10,7 +10,6 @@ public class BoidUnit : MonoBehaviour
     [SerializeField] float neighbourDistance;
     [SerializeField] private Transform TargetObj;
 
-    private Color boidcolor;
     bool isreach = false;
 
     Vector3 targetVec;
@@ -18,19 +17,16 @@ public class BoidUnit : MonoBehaviour
     
     Boids boids;
 
-    List<BoidUnit> neighbours = new List<BoidUnit>();
-    List<Color> colors = new List<Color>();
-
     [Header("Layer")]
     [SerializeField] LayerMask neigboursLayers;
     [SerializeField] LayerMask boidUnitLayer;
 
+    List<BoidUnit> neighbours = new List<BoidUnit>();
+    List<Color> colors = new List<Color>();
+
+    //Tag¼³Á¤¿ë µñ¼Å³Ê¸®
     Dictionary<int, string> colorTags = new Dictionary<int, string>()
-{
-    {0, "Red"},
-    {1, "Green"},
-    {2, "Blue"}
-};
+    {{0, "Red"},{1, "Green"},{2, "Blue"}};
 
     private void Awake()
     {
@@ -47,14 +43,13 @@ public class BoidUnit : MonoBehaviour
 
         Renderer BoidUnitrenderer = GetComponent<Renderer>();
 
-        if (boids.iscolor)
-        {
+ 
             int randomIndex = UnityEngine.Random.Range(0, 3);
             BoidUnitrenderer.material.color = colors[randomIndex];
-            string selectedName = colorTags[randomIndex]; 
-           // Debug.Log("ColorTags : " + selectedName);
-         
-            switch (randomIndex)
+            string ColorTags = colorTags[randomIndex];
+              // Debug.Log("ColorTags : " + ColorTag);
+
+        switch (randomIndex)
             {
                 case 0:
                     gameObject.tag = "red";
@@ -65,8 +60,7 @@ public class BoidUnit : MonoBehaviour
                 case 2:
                     gameObject.tag = "blue";
                     break;
-            }
-
+            
            // Debug.Log($"Color: {colors[randomIndex]}, Tag: {gameObject.tag}");
         }
 

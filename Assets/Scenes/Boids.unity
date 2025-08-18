@@ -153,13 +153,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boidUnitPrefab: {fileID: 1297588894}
-  spawnRange: 15
-  boidCount: 500
+  spawnRange: 30
+  boidCount: 1000
   Indexcol: 0
   iscolor: 1
-  cohesionWeight: 0.5
+  cohesionWeight: 0
   alignmentWeight: 0
-  seperationVecWeight: 0.3
+  seperationVecWeight: 0
 --- !u!4 &200907429
 Transform:
   m_ObjectHideFlags: 0
@@ -299,7 +299,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5675429051532696674, guid: 68b970b0c0394394fb4c7d996e730cfc, type: 3}
       propertyPath: speed
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5675429051532696674, guid: 68b970b0c0394394fb4c7d996e730cfc, type: 3}
       propertyPath: TargetObj
@@ -307,7 +307,7 @@ PrefabInstance:
       objectReference: {fileID: 1700685113}
     - target: {fileID: 5675429051532696674, guid: 68b970b0c0394394fb4c7d996e730cfc, type: 3}
       propertyPath: neighbourDistance
-      value: 10
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5675429051532696674, guid: 68b970b0c0394394fb4c7d996e730cfc, type: 3}
       propertyPath: seperationVecWeight
