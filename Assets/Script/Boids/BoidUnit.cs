@@ -1,11 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Diagnostics;
 using UnityEngine;
 
 public class BoidUnit : MonoBehaviour
 {
-
     [SerializeField] float speed;
     [SerializeField] float neighbourDistance;
     [SerializeField] private Transform TargetObj;
@@ -14,7 +15,7 @@ public class BoidUnit : MonoBehaviour
 
     Vector3 targetVec;
     Vector3 obstacleVec;
-    
+
     Boids boids;
 
     [Header("Layer")]
@@ -33,7 +34,7 @@ public class BoidUnit : MonoBehaviour
         colors.Add(Color.red);
         colors.Add(Color.green);
         colors.Add(Color.blue);
-  
+
     }
 
     public void InitializeUnit(Boids _boids, float _speed)
@@ -43,29 +44,29 @@ public class BoidUnit : MonoBehaviour
 
         Renderer BoidUnitrenderer = GetComponent<Renderer>();
 
- 
-            int randomIndex = UnityEngine.Random.Range(0, 3);
-            BoidUnitrenderer.material.color = colors[randomIndex];
-            string ColorTags = colorTags[randomIndex];
-              // Debug.Log("ColorTags : " + ColorTag);
+
+        int randomIndex = UnityEngine.Random.Range(0, 3);
+        BoidUnitrenderer.material.color = colors[randomIndex];
+        string ColorTags = colorTags[randomIndex];
+        // Debug.Log("ColorTags : " + ColorTag);
 
         switch (randomIndex)
-            {
-                case 0:
-                    gameObject.tag = "red";
-                    break;
-                case 1:
-                    gameObject.tag = "green";
-                    break;
-                case 2:
-                    gameObject.tag = "blue";
-                    break;
-            
-           // Debug.Log($"Color: {colors[randomIndex]}, Tag: {gameObject.tag}");
+        {
+            case 0:
+                gameObject.tag = "red";
+                break;
+            case 1:
+                gameObject.tag = "green";
+                break;
+            case 2:
+                gameObject.tag = "blue";
+                break;
+
+                // Debug.Log($"Color: {colors[randomIndex]}, Tag: {gameObject.tag}");
         }
 
     }
-  
+
     void Update()
     {
         if (boids == null) return;
@@ -75,12 +76,24 @@ public class BoidUnit : MonoBehaviour
         Vector3 cohesionVec = CohesionVector() * boids.cohesionWeight;
         Vector3 alignmenVec = AlignmentVec() * boids.alignmentWeight;
         Vector3 seperationVec = SeperationVec() * boids.seperationVecWeight;
-          
-        targetVec = cohesionVec + alignmenVec + seperationVec;
 
-        targetVec = Vector3.Lerp(this.transform.forward,targetVec, speed * Time.deltaTime);
-        this.transform.rotation = Quaternion.LookRotation(TargetObj.position);
-        this.transform.position += targetVec * speed * Time.deltaTime;
+
+        Vector3 desiredVec = cohesionVec + alignmenVec + seperationVec;
+        //targetVec = cohesionVec + alignmenVec + seperationVec;
+
+        targetVec = Vector3.Lerp(this.transform.forward, desiredVec, speed * Time.deltaTime);
+        targetVec.Normalize();
+
+        Vector3 directionToTarget = TargetObj.position - this.transform.position;
+
+        if(directionToTarget != Vector3.zero)
+        {
+            this.transform.rotation = Quaternion.LookRotation(directionToTarget);
+        }
+     
+
+
+          this.transform.position += targetVec * speed * Time.deltaTime;
 
         DestroyBoidunit();
     }
@@ -98,7 +111,7 @@ public class BoidUnit : MonoBehaviour
                 neighbours.Add(colls[i].GetComponent<BoidUnit>());
             }
         }
-    
+
     }
 
     //응집 벡터(이웃들 기준 중간점으로 가는 벡터) 계산 
@@ -110,7 +123,7 @@ public class BoidUnit : MonoBehaviour
         {
             for (int i = 0; i < neighbours.Count; i++)
             {
-                    cohesionVec += neighbours[i].transform.position; 
+                cohesionVec += neighbours[i].transform.position;
             }
         }
         else
@@ -131,7 +144,7 @@ public class BoidUnit : MonoBehaviour
 
         if (neighbours.Count > 0)
         {
-            for(int i = 0; i < neighbours.Count; i++)
+            for (int i = 0; i < neighbours.Count; i++)
             {
                 alignmenVec += neighbours[i].transform.forward;
             }
@@ -152,9 +165,9 @@ public class BoidUnit : MonoBehaviour
     {
         Vector3 seperationVec = Vector3.zero;
 
-        if(neighbours.Count > 0)
+        if (neighbours.Count > 0)
         {
-            for(int i = 0;i < neighbours.Count;i++)
+            for (int i = 0; i < neighbours.Count; i++)
             {
                 seperationVec += (transform.position - neighbours[i].transform.position);
             }
@@ -164,16 +177,16 @@ public class BoidUnit : MonoBehaviour
             return seperationVec;
         }
 
-            seperationVec /= neighbours.Count;
-            return seperationVec;
+        seperationVec /= neighbours.Count;
+        return seperationVec;
     }
 
     private void DestroyBoidunit()
     {
-        if(this.transform.position.x > TargetObj.transform.position.x)
+        if (this.transform.position.x > TargetObj.transform.position.x)
         {
-            isreach = true; 
-            Debug.Log(this + "stop");
+            isreach = true;
+
 
             if (isreach)
             {
@@ -181,6 +194,7 @@ public class BoidUnit : MonoBehaviour
             }
         }
     }
+
 }
 
 
